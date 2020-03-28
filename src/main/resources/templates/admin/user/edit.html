@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html th:replace="~{base::base('Редактирование пользователя', 'admin', ~{::body}, _, _, _)}">
+<body>
+<div th:fragment="body">
+    <h1>Редактирование пользователя</h1>
+    <a th:href="@{/admin/user/list}">&laquo; Назад</a>
+    <form th:action="@{/admin/user/save}" method="post" class="mt-5" th:object="${user}">
+        <input type="hidden" th:field="*{id}"/>
+        <div class="form-group">
+            <label for="username">Имя пользователя</label>
+            <input id="username" type="text" th:field="*{username}" readonly class="form-control-plaintext"/>
+        </div>
+        <div class="form-group">
+            <label for="name">Имя</label>
+            <input id="name" type="text" th:field="*{name}" class="form-control"/>
+        </div>
+        <div class="form-group">
+            <label for="email">Адрес электронной почты</label>
+            <input id="email" type="email" th:field="*{email}" class="form-control"/>
+        </div>
+        <div class="form-group form-check">
+            <input id="active" type="checkbox" th:field="*{active}" class="form-check-input"/>
+            <label for="active">Активен</label>
+        </div>
+        <div class="form-group">
+            <label>Роли</label>
+            <div class="form-check" th:each="role : ${roles}">
+                <input th:id="${role}" type="checkbox" th:field="*{stringRoles}" th:value="${role}"/>
+                <label th:for="${role}" th:text="${role.name}"></label>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-success">Сохранить</button>
+    </form>
+</div>
+</body>
+</html>

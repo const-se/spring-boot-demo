@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html th:replace="~{base::base('Пользователи', 'admin', ~{::body}, _, _, _)}">
+<body>
+<div th:fragment="body">
+    <h1>Пользователи</h1>
+    <a th:href="@{/admin/}">&laquo; Назад</a>
+    <table class="table table-hover mt-5">
+        <thead>
+            <tr>
+                <th>Имя пользователя</th>
+                <th>Роли</th>
+                <th>Имя</th>
+                <th>E-mail</th>
+                <th>Активен</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="user : ${users}">
+                <td th:text="${user.username}"></td>
+                <td>
+                    <ul>
+                        <li th:each="role : ${user.roles}" th:text="${role.name}"></li>
+                    </ul>
+                </td>
+                <td th:text="${user.name}"></td>
+                <td th:text="${user.email}"></td>
+                <td th:text="${user.active ? 'Да' : 'Нет'}"></td>
+                <td>
+                    <div class="btn-group">
+                        <a th:href="@{/admin/user/edit/} + ${user.id}" class="btn btn-link">Редактировать</a>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <nav>
+        <ul class="pagination">
+            <li th:class="${page == 0 ? 'page-item disabled' : 'page-item'}">
+                <a th:href="@{/admin/user/list(page=${page - 1})}" class="page-link">&laquo;</a>
+            </li>
+            <li th:each="p : ${pagesRange}" th:class="${p == page ? 'page-item active' : 'page-item'}">
+                <a th:href="@{/admin/user/list(page=${p})}" class="page-link" th:text="${p + 1}"></a>
+            </li>
+            <li th:class="${page == pages - 1 ? 'page-item disabled' : 'page-item'}">
+                <a th:href="@{/admin/user/list(page=${page + 1})}" class="page-link">&raquo;</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+</body>
+</html>

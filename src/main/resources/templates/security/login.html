@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html th:replace="~{base::base('Вход', '', ~{::body}, _, _, _)}">
+<body>
+    <div th:fragment="body">
+        <h1>Вход</h1>
+        <form method="post" class="mt-5">
+            <div class="form-group">
+                <label for="username">Имя пользователя</label>
+                <input id="username" type="text" name="username" th:class="${error ? 'form-control is-invalid' : 'form-control'}"/>
+                <div class="invalid-feedback">
+                    Неправильный логин...
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="password">Пароль</label>
+                <input id="password" type="password" name="password" th:class="${error ? 'form-control is-invalid' : 'form-control'}"/>
+                <div class="invalid-feedback">
+                    ...или пароль
+                </div>
+            </div>
+            <button type="submit" class="btn btn-success">Войти</button>
+        </form>
+    </div>
+</body>
+</html>

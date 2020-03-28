@@ -1,0 +1,13 @@
+CREATE TABLE users (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    active BIT NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE user_roles (
+    user_id INT UNSIGNED NOT NULL REFERENCES users (id),
+    role VARCHAR(255) NOT NULL
+);

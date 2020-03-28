@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html th:replace="~{base::base('Администрирование', 'admin', ~{::body}, _, _, _)}">
+<body>
+<div th:fragment="body">
+    <h1>Администрирование</h1>
+    <ul class="mt-5">
+        <li>
+            <a th:href="@{/admin/user/list}">Пользователи</a>
+        </li>
+    </ul>
+</div>
+</body>
+</html>

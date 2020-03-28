@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="ru" th:fragment="base(title, activeSection, body, metas, links, scripts)">
+<head>
+    <meta charset="UTF-8"/>
+    <th:block th:replace="${metas}"/>
+    <title th:text="${title}">Title</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
+    <th:block th:replace="${links}"/>
+</head>
+<body>
+    <header th:replace="~{_header::header(${activeSection})}"></header>
+    <div th:insert="${body}" class="container mt-5 pt-5"></div>
+    <script th:src="@{/js/jquery.js}"></script>
+    <script th:src="@{/js/popper.js}"></script>
+    <script th:src="@{/js/bootstrap.js}"></script>
+    <th:block th:replace="${scripts}"/>
+</body>
+</html>

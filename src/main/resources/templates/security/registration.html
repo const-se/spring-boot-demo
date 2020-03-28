@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html th:replace="~{base::base('Регистрация', '', ~{::body}, _, _, _)}">
+<body>
+    <div th:fragment="body">
+        <h1>Регистрация</h1>
+        <form th:action="@{/register}" method="post" class="mt-5" th:object="${user}">
+            <div class="form-group">
+                <label for="username">Имя пользователя</label>
+                <input id="username" type="text" th:field="*{username}" class="form-control"/>
+            </div>
+            <div class="form-group">
+                <label for="password">Пароль</label>
+                <input id="password" type="password" th:field="*{password}" class="form-control"/>
+            </div>
+            <div class="form-group">
+                <label for="name">Ваше имя</label>
+                <input id="name" type="text" th:field="*{name}" class="form-control"/>
+            </div>
+            <div class="form-group">
+                <label for="email">Адрес электронной почты</label>
+                <input id="email" type="email" th:field="*{email}" class="form-control"/>
+            </div>
+            <button type="submit" class="btn btn-success">Зарегистрироваться</button>
+        </form>
+    </div>
+</body>
+</html>
