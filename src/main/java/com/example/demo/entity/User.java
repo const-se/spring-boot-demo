@@ -1,6 +1,7 @@
 package com.example.demo.entity;
 
 import com.example.demo.enums.Role;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -43,6 +44,13 @@ public class User {
 
     @Column(name = "email", nullable = false)
     private String email;
+
+    @OneToOne(targetEntity = Upload.class)
+    @JoinColumn(name = "avatar_id", referencedColumnName = "id")
+    private Upload avatar;
+
+    @Transient
+    private MultipartFile avatarFile;
 
     public Long getId() {
         return id;
@@ -102,5 +110,21 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Upload getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(Upload avatar) {
+        this.avatar = avatar;
+    }
+
+    public MultipartFile getAvatarFile() {
+        return avatarFile;
+    }
+
+    public void setAvatarFile(MultipartFile avatarFile) {
+        this.avatarFile = avatarFile;
     }
 }

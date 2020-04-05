@@ -1,0 +1,2 @@
+ALTER TABLE users
+ADD COLUMN avatar_id INT UNSIGNED NULL REFERENCES uploads (id);

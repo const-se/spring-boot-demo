@@ -7,3 +7,5 @@ db_name=name
 db_username=username
 db_password=password
 db_show_sql=false
+
+uploads_path=

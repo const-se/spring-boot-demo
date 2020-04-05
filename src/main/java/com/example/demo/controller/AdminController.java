@@ -1,10 +1,12 @@
 package com.example.demo.controller;
 
+import com.example.demo.entity.Upload;
 import com.example.demo.entity.User;
 import com.example.demo.enums.Role;
 import com.example.demo.exception.HttpAccessDeniedException;
 import com.example.demo.exception.HttpNotFoundException;
 import com.example.demo.repository.UserRepository;
+import com.example.demo.service.UploadManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,6 +14,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.stream.IntStream;
 
@@ -20,6 +23,9 @@ import java.util.stream.IntStream;
 public class AdminController {
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private UploadManager uploadManager;
 
     @GetMapping("/")
     public String index() {
@@ -57,7 +63,7 @@ public class AdminController {
     }
 
     @PostMapping("/user/save")
-    public String userSave(@ModelAttribute User user) {
+    public String userSave(@ModelAttribute User user) throws Exception {
         User original = userRepository.findByUsername(user.getUsername());
         if (original == null) {
             throw new HttpNotFoundException();
@@ -75,9 +81,35 @@ public class AdminController {
             original.getRoles().add(role);
         }
 
+        if (user.getAvatarFile() != null) {
+            Upload avatar = uploadManager.upload(user.getAvatarFile());
+            System.out.println(avatar.getFilename());
+            original.setAvatar(avatar);
+        }
+
         userRepository.save(original);
         userRepository.flush();
 
         return "redirect:/admin/user/edit/" + original.getId();
+    }
+
+    @PostMapping("/user/avatar/{userId}")
+    public String avatar(
+            @PathVariable("userId") User user,
+            @RequestParam("file") MultipartFile file
+    ) throws Exception {
+        Upload oldAvatar = user.getAvatar();
+
+        Upload avatar = uploadManager.upload(file);
+        user.setAvatar(avatar);
+
+        userRepository.save(user);
+        userRepository.flush();
+
+        if (oldAvatar != null) {
+            uploadManager.remove(oldAvatar);
+        }
+
+        return "redirect:/admin/user/edit/" + user.getId();
     }
 }
